@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ form_title }} | Social CRM{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card mx-auto p-4" style="max-width: 480px;">
+        <h2 class="mb-4 text-center fw-bold" style="letter-spacing:1.2px;">
+            <i class="bi bi-person-badge me-2"></i>{{ form_title }}
+        </h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">姓名 <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control" name="name" value="{{ customer.name|default:'' }}" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">公司</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-building"></i></span>
+                    <input type="text" class="form-control" name="company" value="{{ customer.company|default:'' }}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">電話</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input type="text" class="form-control" name="phone" value="{{ customer.phone|default:'' }}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" class="form-control" name="email" value="{{ customer.email|default:'' }}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">標籤（以逗號分隔）</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-tags"></i></span>
+                    <input type="text" class="form-control" name="tags" value="{{ tags|default:'' }}" placeholder="例：VIP,潛力,重要">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-gradient w-100 mt-3">
+                <i class="bi bi-save"></i> 儲存
+            </button>
+            <div class="text-center mt-3">
+                <a href="{% url 'customer:list' %}" class="text-primary text-decoration-none"><i class="bi bi-arrow-left"></i> 返回清單</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

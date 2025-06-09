@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{ customer.name }} | 客戶詳細資料{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="glass-card mx-auto p-4" style="max-width: 540px;">
+        <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+                <i class="bi bi-person-circle fs-1" style="color:#818cf8;"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <h2 class="mb-0 fw-bold" style="letter-spacing:1px;">{{ customer.name }}</h2>
+                <div class="small text-muted">
+                    {% for tag in customer.tags.all %}
+                        <span class="badge bg-primary bg-opacity-75 me-1">{{ tag.name }}</span>
+                    {% empty %}
+                        <span class="text-muted">-</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item bg-transparent border-0 d-flex align-items-center">
+                <i class="bi bi-building me-2"></i>
+                <strong>公司：</strong>
+                <span class="ms-2">{{ customer.company|default:"-" }}</span>
+            </li>
+            <li class="list-group-item bg-transparent border-0 d-flex align-items-center">
+                <i class="bi bi-telephone me-2"></i>
+                <strong>電話：</strong>
+                <span class="ms-2">{{ customer.phone|default:"-" }}</span>
+            </li>
+            <li class="list-group-item bg-transparent border-0 d-flex align-items-center">
+                <i class="bi bi-envelope me-2"></i>
+                <strong>Email：</strong>
+                <span class="ms-2">{{ customer.email|default:"-" }}</span>
+            </li>
+        </ul>
+        <div class="d-flex justify-content-end gap-2">
+            <a href="{% url 'customer:edit' customer.id %}" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil"></i> 編輯</a>
+            <form action="{% url 'customer:delete' customer.id %}" method="post" class="d-inline" onsubmit="return confirm('確定要刪除這位客戶嗎？');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i> 刪除</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
