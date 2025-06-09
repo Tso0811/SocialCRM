@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Social CRM{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(120deg, #191924 0%, #232345 100%);
+            min-height: 100vh;
+            color: #e8eaf6;
+        }
+        .glass-card {
+            background: rgba(34, 40, 49, 0.93);
+            box-shadow: 0 8px 40px rgba(80, 112, 242, .16), 0 1.5px 15px rgba(80, 112, 242, .12);
+            border-radius: 1.4rem;
+            backdrop-filter: blur(8px);
+            color: #e8eaf6;
+        }
+        .navbar {
+            background: rgba(31, 34, 51, 0.98) !important;
+            box-shadow: 0 2px 10px rgba(80, 112, 242, .12);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.3rem;
+            background: linear-gradient(90deg, #a5b4fc, #6366f1 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-gradient {
+            background: linear-gradient(90deg, #6366f1, #818cf8);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            transition: 0.18s;
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(90deg, #818cf8, #6366f1);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px rgba(80, 112, 242, .18);
+        }
+        .btn-outline-primary,
+        .btn-outline-danger {
+            color: #a5b4fc;
+            border-color: #6366f1;
+        }
+        .btn-outline-primary:hover,
+        .btn-outline-danger:hover {
+            background: #6366f1;
+            color: #fff;
+        }
+        .input-group-text {
+            background: #232345;
+            color: #a5b4fc;
+            border: none;
+        }
+        .form-control {
+            background: #232345;
+            color: #e8eaf6;
+            border: 1px solid #35355a;
+        }
+        .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99,102,241,.15);
+            background: #22223a;
+            color: #fff;
+        }
+        label, .form-label {
+            color: #a5b4fc;
+        }
+        .alert {
+            background: rgba(61, 72, 102, 0.99);
+            color: #fff;
+            border: 1px solid #6366f1;
+        }
+        a, .text-primary {
+            color: #a5b4fc !important;
+        }
+        .btn-close {
+            filter: invert(1);
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm px-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href=""><i class="bi bi-people-fill me-2"></i>Social CRM</a>
+        <div class="ms-auto">
+        {% if user.is_authenticated %}
+            <span class="me-2"><i class="bi bi-person-circle"></i> {{ user.username }}</span>
+            <form action="{% url 'user:logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger btn-sm" type="submit"><i class="bi bi-box-arrow-right"></i> 登出</button>
+            </form>
+        {% else %}
+            <a href="{% url 'user:login' %}" class="btn btn-outline-primary btn-sm me-2"><i class="bi bi-box-arrow-in-right"></i> 登入</a>
+            <a href="{% url 'user:register' %}" class="btn btn-gradient btn-sm"><i class="bi bi-person-plus"></i> 註冊</a>
+        {% endif %}
+        </div>
+    </div>
+</nav>
+{% if messages %}
+  <div class="container pt-2">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% block content %}{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
