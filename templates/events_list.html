@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}活動總覽 | Social CRM{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0" style="letter-spacing:1.2px;">
+      <i class="bi bi-calendar2-event me-2"></i>活動總覽
+    </h2>
+    {% if user.is_authenticated and not user.is_company %}
+      <a href="{% url 'member:my_events' %}" class="btn btn-gradient">
+        <i class="bi bi-person-lines-fill"></i> 我的報名
+      </a>
+    {% endif %}
+    {% if user.is_authenticated and user.is_company %}
+      <a href="{% url 'company:dashboard' %}" class="btn btn-gradient">
+        <i class="bi bi-speedometer2"></i> 公司儀表板
+      </a>
+    {% endif %}
+  </div>
+  <form method="get" class="mb-4">
+    <div class="input-group" style="max-width:400px;">
+      <input type="text" name="q" class="form-control" placeholder="搜尋活動、主辦公司、地點..." value="{{ request.GET.q }}">
+      <button class="btn btn-outline-primary" type="submit">
+        <i class="bi bi-search"></i> 搜尋
+      </button>
+    </div>
+  </form>
+  <div class="row g-4">
+    {% for event in events %}
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between shadow" style="background:rgba(22,28,36,0.95); border-radius:18px;">
+        <div>
+          <h4 class="fw-bold mb-2">
+            <a href="{% url 'event:detail' event.id %}" class="text-primary text-decoration-none">{{ event.title }}</a>
+          </h4>
+          <div class="mb-1 small text-muted">
+            <i class="bi bi-building me-1"></i>{{ event.company.name }}
+          </div>
+          <div class="mb-2">
+            <span class="badge bg-primary bg-opacity-75 me-1"><i class="bi bi-geo-alt"></i> {{ event.location }}</span>
+            <span class="badge bg-secondary bg-opacity-75"><i class="bi bi-calendar-event"></i> {{ event.start_time|date:"Y-m-d H:i" }}</span>
+          </div>
+          <div class="mt-2 text-truncate text-secondary small" style="max-width:320px;">{{ event.description|truncatechars:64 }}</div>
+        </div>
+        <div class="mt-3 d-flex justify-content-end align-items-center gap-2">
+          <a href="{% url 'event:detail' event.id %}" class="btn btn-sm btn-gradient">
+            <i class="bi bi-zoom-in"></i> 詳細內容
+          </a>
+          {% if user.is_authenticated and not user.is_company %}
+            {% if event.is_registered %}
+              <span class="badge bg-success">已報名</span>
+            {% else %}
+              <form method="post" action="{% url 'event:register' event.id %}">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-outline-primary"><i class="bi bi-check2-circle"></i> 報名</button>
+              </form>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted py-5">
+      <i class="bi bi-emoji-frown fs-4"></i><br>
+      找不到任何活動
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<style>
+body {
+  background: #161c24;
+  color: #e4eaf1;
+}
+.glass-card {
+  background: rgba(22,28,36,0.93);
+  border: 1.5px solid #232a36;
+  border-radius: 18px;
+  transition: box-shadow .2s;
+}
+.glass-card:hover {
+  box-shadow: 0 4px 32px rgba(75, 120, 255, 0.18), 0 1.5px 8px #1114;
+}
+.btn-gradient {
+  background: linear-gradient(90deg,#4b78ff,#b16cff);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+}
+.btn-gradient:hover {
+  background: linear-gradient(90deg,#3a60e9,#a24be9);
+  color: #fff;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+{% endblock %}
