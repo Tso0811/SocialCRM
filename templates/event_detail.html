@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <div class="card bg-dark text-white shadow">
+    <div class="card-body">
+      <h2 class="card-title mb-3">{{ event.title }}</h2>
+      <p><span class="fw-bold">日期：</span>{{ event.date }}</p>
+      <p class="mb-2"><span class="fw-bold">主辦單位：</span>{{ event.poster.username }}</p>
+      <hr class="border-light">
+      <p class="card-text fs-5">{{ event.content }}</p>
+      <div class="mt-4">
+        {% if user.is_authenticated and user.is_company and event.poster == user %}
+          <!-- 公司帳號（活動主辦方）看到的功能 -->
+          <a href="{% url 'event_edit' event.id %}" class="btn btn-warning me-2">編輯活動</a>
+          <a href="{% url 'event_attendees' event.id %}" class="btn btn-outline-info">報名名單</a>
+        {% elif user.is_authenticated and not user.is_company %}
+          <!-- 一般會員 -->
+          {% if user_has_registered %}
+            <span class="badge bg-success fs-6">你已報名此活動</span>
+          {% else %}
+            <form method="post" action="{% url 'event_register' event.id %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">我要報名</button>
+            </form>
+          {% endif %}
+        {% else %}
+          <!-- 未登入 -->
+          <a href="{% url 'login' %}" class="btn btn-outline-light">登入後可報名</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
