@@ -1,3 +1,15 @@
 from django.shortcuts import render
+from .models import Events
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
+
+User = get_user_model()
+
+def events_list(request): #顯示所有活動
+    events = Events.objects.all()
+    return render(request , 'events_list.html' , {'events':events})
+
+def event_detail(request , id):
+    event = get_object_or_404(Events , id = id)
+    return render(request , 'event_detail.html' , {'event':event} )

@@ -12,7 +12,7 @@
           <p class="card-text mb-2 text-truncate">{{ event.content|truncatechars:40 }}</p>
           <div class="mt-auto d-flex justify-content-between align-items-center">
             <small class="text-secondary">主辦：{{ event.poster.username }}</small>
-            <a href="{% url 'event_detail' event.id %}" class="btn btn-outline-light btn-sm">檢視活動</a>
+            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-outline-light btn-sm">檢視活動</a>
           </div>
         </div>
       </div>

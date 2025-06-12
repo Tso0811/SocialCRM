@@ -1,11 +1,14 @@
 from django.shortcuts import render , redirect
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import logout , authenticate , login
 from django.contrib import messages
 import re
+
+User = get_user_model()
+
 def login_view(request):
-    # if request.user.is_authenticated:
-    #     return redirect('') #填入首頁
+    if request.user.is_authenticated:
+        return redirect('events:events_list')
     
     if request.method == 'POST' :
         username = request.POST.get('username')
@@ -14,7 +17,7 @@ def login_view(request):
 
         if user is not None :
             login(request , user)
-            # return redirect('') #進入首頁
+            return redirect('events:events_list') 
         else :
             messages.error(request , '用戶名或密碼錯誤')
 
@@ -22,8 +25,7 @@ def login_view(request):
 
 def register(request):
     error = {}
-    # if request.user.is_authentiated:
-    #     return redirect('')  # 填入首頁
+
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -42,7 +44,7 @@ def register(request):
             try:
                 User.objects.create_user(username=username, password=password1, email=email)
                 messages.success(request, '註冊成功，請登入')
-                return redirect('login')
+                return redirect('user:login')
             except Exception as e:
                 messages.error(request, f'註冊失敗：{str(e)}')
 
