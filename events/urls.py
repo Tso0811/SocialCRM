@@ -9,4 +9,5 @@ app_name = 'events'
 urlpatterns = [
     path('events_list/' , views.events_list , name = 'events_list' ),
     path('event_detail/<int:id>' , views.event_detail , name = 'event_detail'),
+    path('event_edit/<id>' , views.event_edit , name = 'event_edit' ),
 ]

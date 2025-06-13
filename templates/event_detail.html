@@ -11,7 +11,7 @@
       <div class="mt-4">
         {% if user.is_authenticated and user.is_company and event.poster == user %}
           <!-- 公司帳號（活動主辦方）看到的功能 -->
-          <a href="{}" class="btn btn-warning me-2">編輯活動</a>
+          <a href="{% url 'events:event_edit' event.id %}" class="btn btn-warning me-2">編輯活動</a>
           <a href="{}" class="btn btn-outline-info">報名名單</a>
         {% elif user.is_authenticated and not user.is_company %}
           <!-- 一般會員 -->
@@ -25,7 +25,7 @@
           {% endif %}
         {% else %}
           <!-- 未登入 -->
-          <a href="{% url 'user:Login' %}" class="btn btn-outline-light">登入後可報名</a>
+          <a href="{% url 'user:login' %}" class="btn btn-outline-light">登入後可報名</a>
         {% endif %}
       </div>
     </div>
