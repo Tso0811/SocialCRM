@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <div class="card bg-dark text-light shadow-lg">
+        <div class="card-body">
+          <h2 class="mb-4">活動報名名單</h2>
+          <h5 class="mb-3">
+            活動名稱：<span class="text-info">{{ event.title }}</span>
+            <span class="ms-3">活動日期：{{ event.date }}</span>
+          </h5>
+          {% if registrations %}
+          <div class="table-responsive">
+            <table class="table table-striped table-dark table-bordered align-middle">
+              <thead>
+                <tr>
+                  <th scope="col">序號</th>
+                  <th scope="col">會員帳號</th>
+                  <th scope="col">聯絡電話</th>
+                  <th scope="col">備註</th>
+                  <th scope="col">報名時間</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reg in registrations %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ reg.user.username }}</td>
+                  <td>{{ reg.phone|default:"－" }}</td>
+                  <td>{{ reg.note|default:"－" }}</td>
+                  <td>{{ reg.registered_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+            <div class="alert alert-secondary text-center my-4">目前尚無人報名本活動。</div>
+          {% endif %}
+          <div class="mt-4 d-flex justify-content-end">
+            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-outline-info">返回活動頁</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

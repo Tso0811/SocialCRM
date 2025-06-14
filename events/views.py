@@ -51,3 +51,9 @@ def event_register(request, id):
     else:
         form = RegistrationForm()
     return render(request, "event_register.html", {"form": form, "event": event})
+
+@login_required
+def event_attendees(request , id):
+    event = get_object_or_404(Events , id = id)
+    registrations = Registration.objects.filter(event = event)
+    return render (request , 'event_attendees.html' ,{'event':event , 'registrations':registrations})
