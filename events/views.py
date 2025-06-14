@@ -4,7 +4,8 @@ from .forms import RegistrationForm
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 User = get_user_model()
 
@@ -47,6 +48,14 @@ def event_register(request, id):
             registration.user = request.user
             registration.event = event
             registration.save()
+
+            send_mail(
+            subject='活動報名成功',
+            message='您好，恭喜你活動報名成功！',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[request.user.email],
+            fail_silently=False,            #預設為False  信件發送錯誤會拋出錯誤訊息 在正式環境中要設為True
+            )                                        
             return redirect("events:event_detail", id = event.id)
     else:
         form = RegistrationForm()
