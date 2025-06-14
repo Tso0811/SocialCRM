@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
-
+from utils.sending_mail import send_event_register
 User = get_user_model()
 
 def events_list(request): #顯示所有活動
@@ -49,13 +49,8 @@ def event_register(request, id):
             registration.event = event
             registration.save()
 
-            send_mail(
-            subject='活動報名成功',
-            message='您好，恭喜你活動報名成功！',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[request.user.email],
-            fail_silently=False,            #預設為False  信件發送錯誤會拋出錯誤訊息 在正式環境中要設為True
-            )                                        
+            send_event_register(request.user.email)  
+
             return redirect("events:event_detail", id = event.id)
     else:
         form = RegistrationForm()

@@ -2,9 +2,7 @@ from django.shortcuts import render , redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth import logout , authenticate , login
 from django.contrib import messages
-from django.core.mail import send_mail
-from django.conf import settings
-
+from utils.sending_mail import user_register
 User = get_user_model()
 
 def login_view(request):
@@ -44,15 +42,7 @@ def register(request):
         else:
             try:
                 User.objects.create_user(username=username, password=password1, email=email)
-
-                send_mail(
-                    subject='註冊成功',
-                    message='您好，感謝您註冊成為我們的會員！',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[email],
-                    fail_silently=False,            #預設為False  信件發送錯誤會拋出錯誤訊息 在正式環境中要設為True
-                )                                         
-
+                user_register(email)
                 return redirect('user:login')
             except Exception as e:
                 messages.error(request, f'註冊失敗：{str(e)}')
