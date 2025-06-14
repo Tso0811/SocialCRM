@@ -20,6 +20,7 @@
           {% else %}
             <form method="post" action="{% url 'events:event_register' event.id %}" class="d-inline">
               {% csrf_token %}
+              <a href="{% url 'events:events_list' %}" class="btn btn-primary">返回</a>
               <a href="{% url 'events:event_register' event.id %}" class="btn btn-primary">我要報名</a>
             </form>
           {% endif %}
