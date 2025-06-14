@@ -18,9 +18,9 @@
           {% if user_has_registered %}
             <span class="badge bg-success fs-6">你已報名此活動</span>
           {% else %}
-            <form method="post" action="" class="d-inline">
+            <form method="post" action="{% url 'events:event_register' event.id %}" class="d-inline">
               {% csrf_token %}
-              <button type="submit" class="btn btn-primary">我要報名</button>
+              <a href="{% url 'events:event_register' event.id %}" class="btn btn-primary">我要報名</a>
             </form>
           {% endif %}
         {% else %}

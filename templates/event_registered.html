@@ -1,0 +1,19 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="alert alert-success d-flex align-items-center shadow-lg" role="alert" style="font-size:1.1rem;">
+        <i class="bi bi-check-circle-fill me-3 fs-2"></i>
+        <div>
+          <span class="fw-bold">你已完成報名！</span>
+          <div class="mb-1 mt-2">
+            活動名稱：<span class="text-dark-emphasis">{{ event.title }}</span><br>
+            活動日期：<span class="text-dark-emphasis">{{ event.date }}</span>
+          </div>
+          <a href="{% url 'events:event_detail' event.id %}" class="btn btn-outline-success btn-sm mt-2">
+            返回活動頁
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

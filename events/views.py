@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect
-from .models import Events
+from .models import Events , Registration
+from .forms import RegistrationForm
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -31,3 +32,22 @@ def event_edit(request , id):
         event.save()
         return redirect('events:events_list')
     return render(request , 'event_edit.html' , {'event':event})
+
+@login_required
+def event_register(request, id):
+    event = get_object_or_404(Events, id = id)
+    
+    if Registration.objects.filter(user = request.user , event = event):
+        return render (request ,'event_registered.html' , {'event':event})
+        
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            registration = form.save(commit = False)
+            registration.user = request.user
+            registration.event = event
+            registration.save()
+            return redirect("events:event_detail", id = event.id)
+    else:
+        form = RegistrationForm()
+    return render(request, "event_register.html", {"form": form, "event": event})
