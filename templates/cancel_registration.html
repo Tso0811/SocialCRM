@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card glass-card shadow-lg">
+        <div class="card-body text-center">
+          <h3 class="mb-3 text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>確認取消報名？</h3>
+          <p class="mb-4">
+            你確定要取消報名以下活動嗎？<br>
+            <span class="text-info fw-bold">{{ registration.event.title }}</span><br>
+            活動日期：{{ registration.event.date }}
+          </p>
+          <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger me-2 px-4"><i class="bi bi-x-circle"></i> 確認取消</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

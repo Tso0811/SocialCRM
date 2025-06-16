@@ -29,7 +29,7 @@
                   <td>{{ reg.event.poster.username }}</td>
                   <td>{{ reg.registered_at|date:"Y-m-d H:i" }}</td>
                   <td>
-                    <form method="post" action="">
+                    <form method="post" action="{% url 'memberdashboard:cancel_registration' reg.event.id %}">
                       {% csrf_token %}
                       <button type="submit" class="btn btn-outline-danger btn-sm"
                         onclick="return confirm('確定要取消報名嗎？');">取消報名</button>
