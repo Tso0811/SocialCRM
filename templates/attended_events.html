@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card bg-dark text-light shadow-lg">
+        <div class="card-body">
+          <h2 class="mb-4">會員中心</h2>
+          <h5 class="mb-3 text-info">我已報名的活動</h5>
+          {% if registrations %}
+          <div class="table-responsive">
+            <table class="table table-striped table-dark table-bordered align-middle">
+              <thead>
+                <tr>
+                  <th scope="col">活動名稱</th>
+                  <th scope="col">日期</th>
+                  <th scope="col">主辦單位</th>
+                  <th scope="col">報名時間</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reg in registrations %}
+                <tr>
+                  <td>
+                    <a href="{% url 'events:event_detail' reg.event.id %}" class="text-info">{{ reg.event.title }}</a>
+                  </td>
+                  <td>{{ reg.event.date }}</td>
+                  <td>{{ reg.event.poster.username }}</td>
+                  <td>{{ reg.registered_at|date:"Y-m-d H:i" }}</td>
+                  <td>
+                    <form method="post" action="">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-outline-danger btn-sm"
+                        onclick="return confirm('確定要取消報名嗎？');">取消報名</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+            <div class="alert alert-secondary text-center my-4">你尚未報名任何活動。</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

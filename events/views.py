@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-from django.conf import settings
 from utils.sending_mail import send_event_register
 User = get_user_model()
 

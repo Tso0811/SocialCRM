@@ -94,6 +94,15 @@
         <a class="navbar-brand" href=""><i class="bi bi-people-fill me-2"></i>Social CRM</a>
         <div class="ms-auto">
         {% if user.is_authenticated %}
+            {% if user.profile.is_company %}
+                <a href="" class="btn btn-outline-info btn-sm me-2">
+                    <i class="bi bi-briefcase"></i> 公司後台
+                </a>
+            {% else %}
+                <a href="{% url 'memberdashboard:attended_events' %}" class="btn btn-outline-info btn-sm me-2">
+                    <i class="bi bi-person-lines-fill"></i> 會員中心
+                </a>
+            {% endif %}
             <span class="me-2"><i class="bi bi-person-circle"></i> {{ user.username }}</span>
             <form action="{% url 'user:logout' %}" method="post" class="d-inline">
                 {% csrf_token %}
