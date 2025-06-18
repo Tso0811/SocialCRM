@@ -137,3 +137,6 @@ EMAIL_HOST_PASSWORD = config('EMAIL_PASS')    # Gmail應用程式密碼  這兩�
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
+
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ["https://*.ngrok-free.app"]
