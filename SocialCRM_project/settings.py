@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'events',
     'memberdashboard',
+    'line_bot',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ["https://*.ngrok-free.app"]
+
+LINE_CHANNEL_ACCESS_TOKEN = config('LINE_CHANNEL_ACCESS_TOKEN')
+LINE_CHANNEL_SECRET = config('LINE_CHANNEL_SECRET')
