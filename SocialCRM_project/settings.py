@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'events',
     'memberdashboard',
     'line_bot',
+    'ai',
 ]
 
 MIDDLEWARE = [
